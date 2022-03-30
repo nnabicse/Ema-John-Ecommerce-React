@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect,} from 'react';
 import useProducts from '../../hooks/useProducts';
+import useCart from '../../hooks/useCart';
 import { addToDb, getStoredCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
@@ -7,7 +8,7 @@ import './Shop.css'
 
 const Shop = () => {
     const [products] = useProducts();
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useCart(products)
 
     useEffect(()=>{
         const storedCart =  getStoredCart ();
