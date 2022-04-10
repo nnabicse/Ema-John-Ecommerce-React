@@ -8,12 +8,11 @@ const SignUp = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
+    const [normalError, setNormalError] = useState('');
     const navigate = useNavigate();
 
 
-    const [createUserWithEmailAndPassword, user] = useCreateUserWithEmailAndPassword(auth)
-
+    const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth)
     const handleEmailBlur = event => {
         setEmail(event.target.value);
     }
@@ -32,16 +31,13 @@ const SignUp = () => {
         event.preventDefault();
 
         if (password !== confirmPassword) {
-            setError("Passwords Didn't Matched!")
+            setNormalError("Passwords Didn't Matched!")
             return
         }
         if (password.length < 6) {
-            setError("password must be 6 characters long")
+            setNormalError("password must be 6 characters long")
             return
         }
-
-
-
         createUserWithEmailAndPassword(email, password)
             .then(result => {
                 console.log("User Created")
@@ -65,7 +61,10 @@ const SignUp = () => {
                         <input onBlur={handleConfirmPasswordBlur} type="password" required />
                     </div>
                     <p>
-                        {error}
+                        {normalError}
+                        {
+                            error && <p>{error.message}</p>
+                        }
                     </p>
                     <input className='form-submit' type="submit" value="Sign Up" />
                 </form>
